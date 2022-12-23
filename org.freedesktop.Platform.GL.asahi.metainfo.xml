@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="runtime">
+  <id>org.freedesktop.Platform/GL.Asahi</id>
+  <metadata_license>CC0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Mesa git Asahi snapshot</name>
+  <summary>Mesa - The 3D Graphics Library - Asahi builds</summary>
+  <releases>
+    <release version="__VERSION__" date="__VERSION_DATE__"/>
+  </releases>
+  <description>
+    <p>
+      This extension contains the drivers part of Mesa3D library 
+      used by Asahi Linux. It's intended to be used together with 
+      libdrm and other graphics libraries from the corresponding 
+      Freedesktop SDK runtime and its derivatives. This is a development 
+      snapshot and there may be dragons. uABI/uAPI breakage is common, so 
+      you may need to constantly update.
+    </p>
+  </description>
+  <url type="homepage">https://github.com/orowith2os/mesa-asahi-flatpak</url>
+</component>
+
