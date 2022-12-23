@@ -22,4 +22,4 @@ jobs:
           EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: --update --never-fork org.freedesktop.Platform.asahi.yml
+          args: --update --never-fork org.freedesktop.Platform.GL.asahi.yml
