@@ -3,7 +3,11 @@ branch: "22.08"
 runtime: org.freedesktop.Platform
 sdk: org.freedesktop.Sdk
 runtime-version: "22.08"
-#sdk-extensions: we'll need to add LLVM and some other extensions, I think.
+sdk-extensions: 
+  - org.freedesktop.Sdk.Extension.llvm14
+build-options:
+  prepend-path: /usr/lib/sdk/llvm14/bin
+  prepend-ld-library-path: /usr/lib/sdk/llvm14/lib
 cleanup:
   - /include
   - /lib/cmake
@@ -12,5 +16,18 @@ cleanup:
   - /share/man
   - '*.la'
   - '*.a'
-modules: #add Mesa and the appropriate build dependencies
+modules:
   - modules/libdrm.yml
+
+  - name: mesa
+    buildsystem: meson
+    config-opts:
+     - -Dgallium-drivers=asahi,swrast,virgl,zink
+     - -Dzstd=enabled
+     - -Dgbm=enabled
+     - -Dplatforms=x11,wayland
+     - -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
+    sources:
+     - type: git
+       url: https://gitlab.freedesktop.org/asahi/mesa.git
+       commit: eecea18964ca0270e3608f6153541561a408f642
