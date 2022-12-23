@@ -1,0 +1,8 @@
+id: org.freedesktop.Platform.GL.asahi
+branch: "22.08"
+runtime: org.freedesktop.Platform
+sdk: org.freedesktop.Sdk
+runtime-version: "22.08"
+#sdk-extensions: we'll need to add LLVM and some other extensions, I think.
+#cleanup: cleanup any unneeded files, such as headers
+#modules: add Mesa and the appropriate build dependencies
