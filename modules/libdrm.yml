@@ -1,10 +1,10 @@
 name: libdrm
-  buildsystem: meson
-  config-opts:
+buildsystem: meson
+config-opts:
     -Dcairo-tests=disabled
     -Dman-pages=disabled
     -Dudev=false
-  sources:
+sources:
     - type: git
       url: https://gitlab.freedesktop.org/mesa/drm.git
       tag: libdrm-2.4.114
