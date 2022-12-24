@@ -3,6 +3,7 @@ branch: "22.08"
 runtime: org.freedesktop.Platform
 sdk: org.freedesktop.Sdk
 runtime-version: "22.08"
+build-extension: true
 sdk-extensions: 
   - org.freedesktop.Sdk.Extension.llvm14
 build-options:
@@ -22,6 +23,7 @@ modules:
   - name: mesa
     buildsystem: meson
     config-opts:
+     - --prefix=/usr/lib/GL/asahi
      - -Dgallium-drivers=asahi,swrast,virgl,zink
      - -Dzstd=enabled
      - -Dgbm=enabled
