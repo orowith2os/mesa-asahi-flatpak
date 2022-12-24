@@ -9,7 +9,6 @@ sdk-extensions:
 build-options:
   prepend-path: /usr/lib/sdk/llvm14/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm14/lib
-  prefix: /usr/lib/GL/asahi
 cleanup:
   - /include
   - /lib/cmake
