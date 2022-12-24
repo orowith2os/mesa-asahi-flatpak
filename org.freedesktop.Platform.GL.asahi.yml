@@ -1,15 +1,14 @@
 id: org.freedesktop.Platform.GL.asahi
-branch: "22.08"
+branch: '22.08'
 runtime: org.freedesktop.Platform
 sdk: org.freedesktop.Sdk
-runtime-version: "22.08"
+runtime-version: '22.08'
 build-extension: true
-sdk-extensions: 
+sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm14
 build-options:
   prepend-path: /usr/lib/sdk/llvm14/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm14/lib
-  prefix: /usr/lib/GL/asahi
 cleanup:
   - /include
   - /lib/cmake
@@ -19,17 +18,96 @@ cleanup:
   - '*.la'
   - '*.a'
 modules:
-  - modules/libdrm.yml
-
-  - name: mesa
+  - name: libdrm-aarch64
+    only-arches: [aarch64]
+    build-options:
+      prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
     buildsystem: meson
     config-opts:
-     - -Dgallium-drivers=asahi,swrast,virgl,zink
-     - -Dzstd=enabled
-     - -Dgbm=enabled
-     - -Dplatforms=x11,wayland
-     - -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
+      - -Dcairo-tests=disabled
+      - -Dman-pages=disabled
+      - -Dudev=false
     sources:
-     - type: git
-       url: https://gitlab.freedesktop.org/asahi/mesa.git
-       commit: eecea18964ca0270e3608f6153541561a408f642
+      - type: git
+        url: https://gitlab.freedesktop.org/mesa/drm.git
+        tag: libdrm-2.4.114
+        commit: b9ca37b3134861048986b75896c0915cbf2e97f9
+
+  - name: libdrm-x86_64
+    only-arches: [x86_64]
+    build-options:
+      prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
+    buildsystem: meson
+    config-opts:
+      - -Dcairo-tests=disabled
+      - -Dman-pages=disabled
+      - -Dudev=false
+    sources:
+      - type: git
+        url: https://gitlab.freedesktop.org/mesa/drm.git
+        tag: libdrm-2.4.114
+        commit: b9ca37b3134861048986b75896c0915cbf2e97f9
+
+  - name: mesa-aarch64
+    only-arches: [aarch64]
+    build-options:
+      prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
+      prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
+    buildsystem: meson
+    config-opts:
+      - -Dgallium-drivers=asahi,swrast,virgl,zink
+      - -Dzstd=enabled
+      - -Dgbm=enabled
+      - -Dplatforms=x11,wayland
+      - -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
+    sources:
+      - type: archive
+        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/01a8a3f3d6089d980e7ae56f6e631c8213f0e49d/mesa-01a8a3f3d6089d980e7ae56f6e631c8213f0e49d.tar.bz2
+        sha256: 3beb1b1c02f978c9a0a233f35c36002950718b21844c6bef38ed847ebbef46b1
+        x-checker-data:
+          type: html
+          url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
+          version-pattern: _commit=(.+)
+          url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/$version/mesa-$version.tar.bz2
+
+  - name: mesa-x86_64
+    only-arches: [x86_64]
+    build-options:
+      prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
+      prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
+    buildsystem: meson
+    config-opts:
+      - -Dgallium-drivers=asahi,swrast,virgl,zink
+      - -Dzstd=enabled
+      - -Dgbm=enabled
+      - -Dplatforms=x11,wayland
+      - -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
+    sources:
+      - type: archive
+        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/01a8a3f3d6089d980e7ae56f6e631c8213f0e49d/mesa-01a8a3f3d6089d980e7ae56f6e631c8213f0e49d.tar.bz2
+        sha256: 3beb1b1c02f978c9a0a233f35c36002950718b21844c6bef38ed847ebbef46b1
+        x-checker-data:
+          type: html
+          url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
+          version-pattern: _commit=(.+)
+          url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/$version/mesa-$version.tar.bz2
+
+  - name: llvm
+    buildsystem: simple
+    build-commands:
+      - cp /usr/lib/sdk/llvm14/lib/libLLVM-14.so /usr/lib/$(uname -m)-linux-gnu/GL/asahi/lib
+
+  # Dummy 'module' so that external-data-checker uses the pkgver in the metainfo
+  # instead of the Git commit.
+  - name: version
+    only-arches: [never]
+    sources:
+      - type: archive
+        url: https://httpbin.org/anything/23.0.0_pre20221219
+        sha256: 0990702345b72057e323a322d730c05e6e114ee548e50b9707e0970bfd3ff50a
+        x-checker-data:
+          type: html
+          url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
+          version-pattern: pkgver=(.+)
+          url-template: https://httpbin.org/anything/$version
+          is-main-module: true
