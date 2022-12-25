@@ -6,11 +6,9 @@ runtime-version: '22.08'
 build-extension: true
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm14
-  - org.freedesktop.Sdk.Extension.rust-stable
 build-options:
   prepend-path: /usr/lib/sdk/llvm14/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm14/lib
-  append-path: /usr/lib/sdk/rust-stable/bin
 cleanup:
   - /include
   - /lib/cmake
@@ -62,7 +60,7 @@ modules:
       - -Dvulkan-drivers=swrast,amd
       - -Ddri3=enabled
       - -Degl=enabled
-      - -Dgallium-rusticl=true
+      - -Dgallium-rusticl=false
       - -Dgallium-va=enabled
       - -Dgallium-vdpau=enabled
       - -Dgallium-xa=disabled
