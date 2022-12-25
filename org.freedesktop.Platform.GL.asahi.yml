@@ -27,7 +27,7 @@ modules:
       - -Dcairo-tests=disabled
       - -Dman-pages=disabled
       - -Dudev=false
-    sources:
+    sources: &libdrm-sources
       - type: git
         url: https://gitlab.freedesktop.org/mesa/drm.git
         tag: libdrm-2.4.114
@@ -39,11 +39,7 @@ modules:
       prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
     buildsystem: meson
     config-opts: *libdrm-config-opts
-    sources:
-      - type: git
-        url: https://gitlab.freedesktop.org/mesa/drm.git
-        tag: libdrm-2.4.114
-        commit: b9ca37b3134861048986b75896c0915cbf2e97f9
+    sources: *libdrm-sources
 
   - name: mesa-aarch64
     only-arches: [aarch64]
@@ -67,7 +63,7 @@ modules:
       - -Dglx=dri
       - -Dvalgrind=enabled
       - -Dmicrosoft-clc=disabled
-    sources:
+    sources: &mesa-sources
       - type: archive
         url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/01a8a3f3d6089d980e7ae56f6e631c8213f0e49d/mesa-01a8a3f3d6089d980e7ae56f6e631c8213f0e49d.tar.bz2
         sha256: 3beb1b1c02f978c9a0a233f35c36002950718b21844c6bef38ed847ebbef46b1
@@ -84,15 +80,7 @@ modules:
       prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
     buildsystem: meson
     config-opts: *mesa-config-opts
-    sources:
-      - type: archive
-        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/01a8a3f3d6089d980e7ae56f6e631c8213f0e49d/mesa-01a8a3f3d6089d980e7ae56f6e631c8213f0e49d.tar.bz2
-        sha256: 3beb1b1c02f978c9a0a233f35c36002950718b21844c6bef38ed847ebbef46b1
-        x-checker-data:
-          type: html
-          url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
-          version-pattern: _commit=(.+)
-          url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/$version/mesa-$version.tar.bz2
+    sources: *mesa-sources
 
   - name: llvm
     buildsystem: simple
