@@ -57,7 +57,7 @@ modules:
       - -Dgbm=enabled
       - -Dplatforms=x11,wayland
       - -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
-      - -Dvulkan-drivers=swrast,radv
+      - -Dvulkan-drivers=swrast,amd
       - -Ddri3=enabled
       - -Degl=enabled
       - -Dgallium-rusticl=enabled
