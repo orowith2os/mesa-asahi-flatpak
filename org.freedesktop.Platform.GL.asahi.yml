@@ -6,6 +6,7 @@ runtime-version: '22.08'
 build-extension: true
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm14
+  - org.freedesktop.Sdk.Extension.rust-stable
 build-options:
   prepend-path: /usr/lib/sdk/llvm14/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm14/lib
