@@ -10,6 +10,7 @@ sdk-extensions:
 build-options:
   prepend-path: /usr/lib/sdk/llvm14/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm14/lib
+  append-path: /usr/lib/sdk/rust-stable/bin
 cleanup:
   - /include
   - /lib/cmake
