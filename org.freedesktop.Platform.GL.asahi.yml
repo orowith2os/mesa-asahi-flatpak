@@ -52,11 +52,21 @@ modules:
       prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
     buildsystem: meson
     config-opts: &mesa-config-opts
-      - -Dgallium-drivers=asahi,swrast,virgl,zink
+      - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro
       - -Dzstd=enabled
       - -Dgbm=enabled
       - -Dplatforms=x11,wayland
       - -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
+      - -Dvulkan-drivers=swrast,amd
+      - -Ddri3=enabled
+      - -Degl=enabled
+      - -Dgallium-rusticl=false
+      - -Dgallium-va=enabled
+      - -Dgallium-vdpau=enabled
+      - -Dgallium-xa=disabled
+      - -Dglx=dri
+      - -Dvalgrind=enabled
+      - -Dmicrosoft-clc=disabled
     sources:
       - type: archive
         url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/01a8a3f3d6089d980e7ae56f6e631c8213f0e49d/mesa-01a8a3f3d6089d980e7ae56f6e631c8213f0e49d.tar.bz2
