@@ -52,7 +52,7 @@ modules:
       prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
     buildsystem: meson
     config-opts: &mesa-config-opts
-      - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro
+      - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro,radeonsi
       - -Dzstd=enabled
       - -Dgbm=enabled
       - -Dplatforms=x11,wayland
