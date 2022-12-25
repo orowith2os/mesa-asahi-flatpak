@@ -12,7 +12,7 @@ jobs:
       options: --privileged
     steps:
     - uses: actions/checkout@v2
-    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
       with:
         bundle: org.freedesktop.Platform.GL.asahi.flatpak
         manifest-path: org.freedesktop.Platform.GL.asahi.yml
