@@ -93,8 +93,8 @@ modules:
     only-arches: [never]
     sources:
       - type: archive
-        url: https://httpbin.org/anything/23.0.0_pre20221219
-        sha256: 0990702345b72057e323a322d730c05e6e114ee548e50b9707e0970bfd3ff50a
+        url: https://httpbin.org/anything/23.0.0_pre$_asahiver
+        sha256: 84d5365ed264670af6e92ba942b802d8bff18468fa84d6cbf945dcb531ee8aff
         x-checker-data:
           type: html
           url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
