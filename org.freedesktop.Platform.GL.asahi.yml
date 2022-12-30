@@ -65,13 +65,13 @@ modules:
       - -Dmicrosoft-clc=disabled
     sources: &mesa-sources
       - type: archive
-        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/01a8a3f3d6089d980e7ae56f6e631c8213f0e49d/mesa-01a8a3f3d6089d980e7ae56f6e631c8213f0e49d.tar.bz2
-        sha256: 3beb1b1c02f978c9a0a233f35c36002950718b21844c6bef38ed847ebbef46b1
+        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20221229/mesa-asahi-20221229.tar.bz2
+        sha256: 257ae49dd02f0ba11a6891da847348fdddbece4db73db642b2b9154ac48dc19f
         x-checker-data:
           type: html
           url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
-          version-pattern: _commit=(.+)
-          url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/$version/mesa-$version.tar.bz2
+          version-pattern: _asahiver=(.+)
+          url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-$version/mesa-asahi-$version.tar.bz2
 
   - name: mesa-x86_64
     only-arches: [x86_64]
@@ -86,18 +86,3 @@ modules:
     buildsystem: simple
     build-commands:
       - cp /usr/lib/sdk/llvm14/lib/libLLVM-14.so /usr/lib/$(uname -m)-linux-gnu/GL/asahi/lib
-
-  # Dummy 'module' so that external-data-checker uses the pkgver in the metainfo
-  # instead of the Git commit.
-  - name: version
-    only-arches: [never]
-    sources:
-      - type: archive
-        url: https://httpbin.org/anything/23.0.0_pre20221219
-        sha256: 0990702345b72057e323a322d730c05e6e114ee548e50b9707e0970bfd3ff50a
-        x-checker-data:
-          type: html
-          url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
-          version-pattern: pkgver=(.+)
-          url-template: https://httpbin.org/anything/$version
-          is-main-module: true
