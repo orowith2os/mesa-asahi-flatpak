@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component type="runtime">
+<component type="addon">
   <id>org.freedesktop.Platform/GL.Asahi</id>
+  <extends>org.freedesktop.Platform</extends>
   <metadata_license>CC0</metadata_license>
   <project_license>MIT</project_license>
   <name>Mesa git Asahi snapshot</name>
@@ -20,4 +21,5 @@
     </p>
   </description>
   <url type="homepage">https://github.com/orowith2os/mesa-asahi-flatpak</url>
+  <url type="bugtracker">https://github.com/orowith2os/mesa-asahi-flatpak/issues</url>
 </component>
