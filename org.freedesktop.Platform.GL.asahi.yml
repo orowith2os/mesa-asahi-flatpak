@@ -85,4 +85,4 @@ modules:
   - name: llvm
     buildsystem: simple
     build-commands:
-      - cp /usr/lib/sdk/llvm14/lib/libLLVM-14.so /usr/lib/$(uname -m)-linux-gnu/GL/asahi/lib
+      - cp /usr/lib/sdk/llvm15/lib/libLLVM-15.so /usr/lib/$(uname -m)-linux-gnu/GL/asahi/lib
