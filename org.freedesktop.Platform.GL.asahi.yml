@@ -38,17 +38,17 @@ cleanup:
   - '*.la'
   - '*.a'
 modules:
-  - name: libdrm-aarch64
+  - name: libdrm
     build-options:
       arch: 
         x86_64: *x86_64-build-options
         aarch64: *aarch64-build-options
     buildsystem: meson
-    config-opts: &libdrm-config-opts
+    config-opts:
       - -Dcairo-tests=disabled
       - -Dman-pages=disabled
       - -Dudev=false
-    sources: &libdrm-sources
+    sources:
       - type: git
         url: https://gitlab.freedesktop.org/mesa/drm.git
         tag: libdrm-2.4.114
@@ -60,7 +60,7 @@ modules:
         x86_64: *x86_64-build-options
         aarch64: *aarch64-build-options
     buildsystem: meson
-    config-opts: &mesa-config-opts
+    config-opts:
       - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro
       - -Dzstd=enabled
       - -Dgbm=enabled
@@ -76,7 +76,7 @@ modules:
       - -Dglx=dri
       - -Dvalgrind=enabled
       - -Dmicrosoft-clc=disabled
-    sources: &mesa-sources
+    sources:
       - type: archive
         url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20221229/mesa-asahi-20221229.tar.bz2
         sha256: 257ae49dd02f0ba11a6891da847348fdddbece4db73db642b2b9154ac48dc19f
