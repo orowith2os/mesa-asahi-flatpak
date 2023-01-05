@@ -16,7 +16,13 @@ x-arch-build-options:
     prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
     prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
     libdir: /usr/lib/x86_64-linux-gnu/GL/asahi/lib
+# Needs https://github.com/flatpak/flatpak-builder/issues/381 to be resolved before this can actually be used. Until then, only 64-bit builds.
+  i386: &i386-build-options
+    prefix: /usr/lib/i386-linux-gnu/GL/asahi
+    prepend-pkg-config-path: /usr/lib/i386-linux-gnu/GL/asahi/lib/pkgconfig
+    libdir: /usr/lib/i386-linux-gnu/GL/asahi/lib
 
+# org.freedesktop.Sdk.Compat.arm is deprecated, so only build for aarch64.
   aarch64: &aarch64-build-options
     prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
     prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
