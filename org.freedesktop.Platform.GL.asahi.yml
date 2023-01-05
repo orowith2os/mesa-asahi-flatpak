@@ -9,6 +9,20 @@ sdk-extensions:
 build-options:
   prepend-path: /usr/lib/sdk/llvm15/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm15/lib
+
+
+x-arch-build-options:
+  x86_64: &x86_64-build-options
+    prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
+    prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
+    libdir: /usr/lib/x86_64-linux-gnu/GL/asahi/lib
+
+  aarch64: &aarch64-build-options
+    prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
+    prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
+    libdir: /usr/lib/aarch64-linux-gnu/GL/asahi/lib
+
+
 cleanup:
   - /include
   - /lib/cmake
@@ -19,9 +33,10 @@ cleanup:
   - '*.a'
 modules:
   - name: libdrm-aarch64
-    only-arches: [aarch64]
     build-options:
-      prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
+      arch: 
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
     buildsystem: meson
     config-opts: &libdrm-config-opts
       - -Dcairo-tests=disabled
@@ -33,19 +48,11 @@ modules:
         tag: libdrm-2.4.114
         commit: b9ca37b3134861048986b75896c0915cbf2e97f9
 
-  - name: libdrm-x86_64
-    only-arches: [x86_64]
+  - name: mesa
     build-options:
-      prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
-    buildsystem: meson
-    config-opts: *libdrm-config-opts
-    sources: *libdrm-sources
-
-  - name: mesa-aarch64
-    only-arches: [aarch64]
-    build-options:
-      prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
-      prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
+      arch: 
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
     buildsystem: meson
     config-opts: &mesa-config-opts
       - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro
@@ -72,15 +79,6 @@ modules:
           url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
           version-pattern: _asahiver=(.+)
           url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-$version/mesa-asahi-$version.tar.bz2
-
-  - name: mesa-x86_64
-    only-arches: [x86_64]
-    build-options:
-      prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
-      prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
-    buildsystem: meson
-    config-opts: *mesa-config-opts
-    sources: *mesa-sources
 
   - name: llvm
     buildsystem: simple
