@@ -9,6 +9,26 @@ sdk-extensions:
 build-options:
   prepend-path: /usr/lib/sdk/llvm15/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm15/lib
+
+
+x-arch-build-options:
+  x86_64: &x86_64-build-options
+    prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
+    prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
+    libdir: /usr/lib/x86_64-linux-gnu/GL/asahi/lib
+  # Needs https://github.com/flatpak/flatpak-builder/issues/381 to be resolved before this can actually be used. Until then, only 64-bit builds.
+  i386: &i386-build-options
+    prefix: /usr/lib/i386-linux-gnu/GL/asahi
+    prepend-pkg-config-path: /usr/lib/i386-linux-gnu/GL/asahi/lib/pkgconfig
+    libdir: /usr/lib/i386-linux-gnu/GL/asahi/lib
+
+  # org.freedesktop.Sdk.Compat.arm is deprecated, so only build for aarch64.
+  aarch64: &aarch64-build-options
+    prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
+    prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
+    libdir: /usr/lib/aarch64-linux-gnu/GL/asahi/lib
+
+
 cleanup:
   - /include
   - /lib/cmake
@@ -18,36 +38,29 @@ cleanup:
   - '*.la'
   - '*.a'
 modules:
-  - name: libdrm-aarch64
-    only-arches: [aarch64]
+  - name: libdrm
     build-options:
-      prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
+      arch: 
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
     buildsystem: meson
-    config-opts: &libdrm-config-opts
+    config-opts:
       - -Dcairo-tests=disabled
       - -Dman-pages=disabled
       - -Dudev=false
-    sources: &libdrm-sources
+    sources:
       - type: git
         url: https://gitlab.freedesktop.org/mesa/drm.git
         tag: libdrm-2.4.114
         commit: b9ca37b3134861048986b75896c0915cbf2e97f9
 
-  - name: libdrm-x86_64
-    only-arches: [x86_64]
+  - name: mesa
     build-options:
-      prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
+      arch: 
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
     buildsystem: meson
-    config-opts: *libdrm-config-opts
-    sources: *libdrm-sources
-
-  - name: mesa-aarch64
-    only-arches: [aarch64]
-    build-options:
-      prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
-      prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
-    buildsystem: meson
-    config-opts: &mesa-config-opts
+    config-opts:
       - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro
       - -Dzstd=enabled
       - -Dgbm=enabled
@@ -63,7 +76,7 @@ modules:
       - -Dglx=dri
       - -Dvalgrind=enabled
       - -Dmicrosoft-clc=disabled
-    sources: &mesa-sources
+    sources:
       - type: archive
         url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20221229/mesa-asahi-20221229.tar.bz2
         sha256: 257ae49dd02f0ba11a6891da847348fdddbece4db73db642b2b9154ac48dc19f
@@ -72,16 +85,7 @@ modules:
           url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
           version-pattern: _asahiver=(.+)
           url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-$version/mesa-asahi-$version.tar.bz2
-
-  - name: mesa-x86_64
-    only-arches: [x86_64]
-    build-options:
-      prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
-      prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
-    buildsystem: meson
-    config-opts: *mesa-config-opts
-    sources: *mesa-sources
-
+  # We might need to make this do some arch-specific stuff later for i386 builds, but as of the time of writing we only do 64-bit builds so we'll be fine.
   - name: llvm
     buildsystem: simple
     build-commands:
