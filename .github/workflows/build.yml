@@ -28,6 +28,5 @@ jobs:
       with:
         bundle: org.freedesktop.Platform.GL.asahi.flatpak
         manifest-path: org.freedesktop.Platform.GL.asahi.yml
-        cache-key: flatpak-builder-${{ github.sha }}
         build-bundle: false
         arch: ${{ matrix.arch }}
