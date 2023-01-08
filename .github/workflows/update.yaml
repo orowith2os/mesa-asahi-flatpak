@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        branch: [ master ] # This'll need to be changed to 22.08, 21.08, etc etc
+        branch: [ main ] # This'll need to be changed to 22.08, 21.08, etc etc
     steps:
       - uses: actions/checkout@v3
         with:
