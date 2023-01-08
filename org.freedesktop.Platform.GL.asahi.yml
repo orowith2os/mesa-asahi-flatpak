@@ -61,6 +61,44 @@ modules:
         aarch64: *aarch64-build-options
     buildsystem: meson
     config-opts:
+      - -D b_ndebug=true
+      - -D b_lto=false
+      - -D platforms=x11,wayland
+      - -D gallium-drivers=swrast,virgl,kmsro,asahi
+      - -D vulkan-drivers=swrast
+      
+      # Will this one mess the builds up? Dunno, but upstream Asahi builds with it like this.
+      - -D vulkan-layers=
+      
+      - -D dri3=enabled
+      - -D egl=enabled
+      - -D gallium-extra-hud=true
+      - -D gallium-opencl=disabled
+      - -D gallium-rusticl=false
+      - -D gallium-va=disabled
+      - -D gallium-vdpau=disabled
+      - -D gallium-xa=disabled
+      - -D gbm=enabled
+      - -D gles1=disabled
+      - -D gles2=enabled
+      - -D glvnd=true
+      - -D glx=dri
+      - -D libunwind=disabled
+      - -D llvm=enabled
+      - -D lmsensors=enabled
+      - -D osmesa=true
+      - -D shared-glapi=enabled
+      - -D microsoft-clc=disabled
+      - -D valgrind=enabled
+    
+    
+    
+    
+    
+    
+    
+    
+    
       - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro
       - -Dzstd=enabled
       - -Dgbm=enabled
