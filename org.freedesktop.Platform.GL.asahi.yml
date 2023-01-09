@@ -90,7 +90,6 @@ modules:
       - -Dglx=dri
       - -Dlibunwind=disabled
       - -Dllvm=enabled
-      - -Dlmsensors=enabled
       - -Dosmesa=true
       - -Dshared-glapi=enabled
       - -Dmicrosoft-clc=disabled
