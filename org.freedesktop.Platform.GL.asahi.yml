@@ -66,35 +66,35 @@ modules:
 
     buildsystem: meson
     config-opts:
-      - -D b_ndebug=true
-      - -D b_lto=false
-      - -D platforms=x11,wayland
-      - -D gallium-drivers=swrast,virgl,kmsro,asahi
-      - -D vulkan-drivers=swrast
+      - -Db_ndebug=true
+      - -Db_lto=false
+      - -Dplatforms=x11,wayland
+      - -Dgallium-drivers=swrast,virgl,kmsro,asahi
+      - -Dvulkan-drivers=swrast
       
       # Will this one mess the builds up? Dunno, but upstream Asahi builds with it like this.
-      - -D vulkan-layers=
+      - -Dvulkan-layers=
       
-      - -D dri3=enabled
-      - -D egl=enabled
-      - -D gallium-extra-hud=true
-      - -D gallium-opencl=disabled
-      - -D gallium-rusticl=false
-      - -D gallium-va=disabled
-      - -D gallium-vdpau=disabled
-      - -D gallium-xa=disabled
-      - -D gbm=enabled
-      - -D gles1=disabled
-      - -D gles2=enabled
-      - -D glvnd=true
-      - -D glx=dri
-      - -D libunwind=disabled
-      - -D llvm=enabled
-      - -D lmsensors=enabled
-      - -D osmesa=true
-      - -D shared-glapi=enabled
-      - -D microsoft-clc=disabled
-      - -D valgrind=enabled
+      - -Ddri3=enabled
+      - -Degl=enabled
+      - -Dgallium-extra-hud=true
+      - -Dgallium-opencl=disabled
+      - -Dgallium-rusticl=false
+      - -Dgallium-va=disabled
+      - -Dgallium-vdpau=disabled
+      - -Dgallium-xa=disabled
+      - -Dgbm=enabled
+      - -Dgles1=disabled
+      - -Dgles2=enabled
+      - -Dglvnd=true
+      - -Dglx=dri
+      - -Dlibunwind=disabled
+      - -Dllvm=enabled
+      - -Dlmsensors=enabled
+      - -Dosmesa=true
+      - -Dshared-glapi=enabled
+      - -Dmicrosoft-clc=disabled
+      - -Dvalgrind=enabled
 
     sources:
       - type: archive
