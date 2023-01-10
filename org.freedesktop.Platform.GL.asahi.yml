@@ -59,23 +59,42 @@ modules:
       arch: 
         x86_64: *x86_64-build-options
         aarch64: *aarch64-build-options
+
+    # From upstream: Build only minimal debug info to reduce size
+    cflags: "-g1"
+    cxxflags: "-g1"
+
     buildsystem: meson
     config-opts:
-      - -Dgallium-drivers=asahi,swrast,virgl,zink,kmsro
-      - -Dzstd=enabled
-      - -Dgbm=enabled
+      - -Db_ndebug=true
+      - -Db_lto=false
       - -Dplatforms=x11,wayland
-      - -Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
+      - -Dgallium-drivers=swrast,virgl,kmsro,asahi
       - -Dvulkan-drivers=swrast
+      
+      # Will this one mess the builds up? Dunno, but upstream Asahi builds with it like this.
+      - -Dvulkan-layers=
+      
       - -Ddri3=enabled
       - -Degl=enabled
+      - -Dgallium-extra-hud=true
+      - -Dgallium-opencl=disabled
       - -Dgallium-rusticl=false
       - -Dgallium-va=disabled
       - -Dgallium-vdpau=disabled
       - -Dgallium-xa=disabled
+      - -Dgbm=enabled
+      - -Dgles1=disabled
+      - -Dgles2=enabled
+      - -Dglvnd=true
       - -Dglx=dri
-      - -Dvalgrind=enabled
+      - -Dlibunwind=disabled
+      - -Dllvm=enabled
+      - -Dosmesa=true
+      - -Dshared-glapi=enabled
       - -Dmicrosoft-clc=disabled
+      - -Dvalgrind=enabled
+
     sources:
       - type: archive
         url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20221229/mesa-asahi-20221229.tar.bz2
