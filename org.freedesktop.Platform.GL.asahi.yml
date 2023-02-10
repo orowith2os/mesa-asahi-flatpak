@@ -86,7 +86,6 @@ modules:
       - -Dgbm=enabled
       - -Dgles1=disabled
       - -Dgles2=enabled
-      - -Dglvnd=true
       - -Dglx=dri
       - -Dlibunwind=disabled
       - -Dllvm=enabled
