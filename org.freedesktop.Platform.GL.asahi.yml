@@ -40,7 +40,7 @@ cleanup:
 modules:
   - name: libdrm
     build-options:
-      arch: 
+      arch:
         x86_64: *x86_64-build-options
         aarch64: *aarch64-build-options
     buildsystem: meson
@@ -56,13 +56,13 @@ modules:
 
   - name: mesa
     build-options:
-      arch: 
+      arch:
         x86_64: *x86_64-build-options
         aarch64: *aarch64-build-options
 
-    # From upstream: Build only minimal debug info to reduce size
-    cflags: "-g1"
-    cxxflags: "-g1"
+      # From upstream: Build only minimal debug info to reduce size
+      cflags: "-g1"
+      cxxflags: "-g1"
 
     buildsystem: meson
     config-opts:
@@ -71,10 +71,10 @@ modules:
       - -Dplatforms=x11,wayland
       - -Dgallium-drivers=swrast,virgl,kmsro,asahi
       - -Dvulkan-drivers=swrast
-      
+
       # Will this one mess the builds up? Dunno, but upstream Asahi builds with it like this.
       - -Dvulkan-layers=
-      
+
       - -Ddri3=enabled
       - -Degl=enabled
       - -Dgallium-extra-hud=true
@@ -86,7 +86,6 @@ modules:
       - -Dgbm=enabled
       - -Dgles1=disabled
       - -Dgles2=enabled
-      - -Dglvnd=true
       - -Dglx=dri
       - -Dlibunwind=disabled
       - -Dllvm=enabled
