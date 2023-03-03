@@ -55,7 +55,7 @@ modules:
         commit: b9ca37b3134861048986b75896c0915cbf2e97f9
         x-checker-data: 
           type: git
-          tag-pattern: ^v([\\d.]+)$
+          tag-pattern: ^v(\d[\d.]+\d)$
 
 
   - name: mesa
