@@ -53,6 +53,10 @@ modules:
         url: https://gitlab.freedesktop.org/mesa/drm.git
         tag: libdrm-2.4.114
         commit: b9ca37b3134861048986b75896c0915cbf2e97f9
+        x-checker-data: 
+          type: git
+          tag-pattern: ^v([\\d.]+)$
+
 
   - name: mesa
     build-options:
@@ -103,6 +107,7 @@ modules:
           url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
           version-pattern: _asahiver=(.+)
           url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-$version/mesa-asahi-$version.tar.bz2
+
   # We might need to make this do some arch-specific stuff later for i386 builds, but as of the time of writing we only do 64-bit builds so we'll be fine.
   - name: llvm
     buildsystem: simple
