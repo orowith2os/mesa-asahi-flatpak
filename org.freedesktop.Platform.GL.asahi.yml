@@ -99,8 +99,8 @@ modules:
       - -Dvalgrind=enabled
 
     sources:
-       - type: dir
-        path: src/mesa-asahi
+     - type: dir
+       path: src/mesa
 #       - type: archive
 #         url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20230311/mesa-asahi-20230311.tar.bz2
 #         sha256: 9ed69ea803a881c19e3d68ab9832f80f6d7cd6fee5d23ab3ce0ad195288cb2d6
