@@ -7,6 +7,7 @@
   <name>Mesa git Asahi snapshot</name>
   <summary>Mesa - The 3D Graphics Library - Asahi builds</summary>
   <releases>
+    <release version="20230725" date="2023-07-25"/>
     <release version="20230706" date="2023-07-10"/>
     <release version="20230615" date="2023-06-15"/>
     <release version="20230606" date="2023-06-08"/>
