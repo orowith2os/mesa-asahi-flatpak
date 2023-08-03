@@ -51,8 +51,8 @@ modules:
     sources:
       - type: git
         url: https://gitlab.freedesktop.org/mesa/drm.git
-        tag: libdrm-2.4.114
-        commit: b9ca37b3134861048986b75896c0915cbf2e97f9
+        tag: libdrm-2.4.115
+        commit: ee558cea20d1f9d822fe1a28e97beaf365bf9d38
 #         x-checker-data: 
 #           type: git
 #           tag-pattern: ^libdrm-(\d[\d.]+\d)$
