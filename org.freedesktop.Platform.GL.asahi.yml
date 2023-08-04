@@ -9,25 +9,22 @@ sdk-extensions:
 build-options:
   prepend-path: /usr/lib/sdk/llvm15/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm15/lib
+  arch:
+    x86_64:
+      prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
+      prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
+      libdir: /usr/lib/x86_64-linux-gnu/GL/asahi/lib
+    # Needs https://github.com/flatpak/flatpak-builder/issues/381 to be resolved before this can actually be used. Until then, only 64-bit builds.
+    i386:
+      prefix: /usr/lib/i386-linux-gnu/GL/asahi
+      prepend-pkg-config-path: /usr/lib/i386-linux-gnu/GL/asahi/lib/pkgconfig
+      libdir: /usr/lib/i386-linux-gnu/GL/asahi/lib
 
-
-x-arch-build-options:
-  x86_64: &x86_64-build-options
-    prefix: /usr/lib/x86_64-linux-gnu/GL/asahi
-    prepend-pkg-config-path: /usr/lib/x86_64-linux-gnu/GL/asahi/lib/pkgconfig
-    libdir: /usr/lib/x86_64-linux-gnu/GL/asahi/lib
-  # Needs https://github.com/flatpak/flatpak-builder/issues/381 to be resolved before this can actually be used. Until then, only 64-bit builds.
-  i386:
-    prefix: /usr/lib/i386-linux-gnu/GL/asahi
-    prepend-pkg-config-path: /usr/lib/i386-linux-gnu/GL/asahi/lib/pkgconfig
-    libdir: /usr/lib/i386-linux-gnu/GL/asahi/lib
-
-  # org.freedesktop.Sdk.Compat.arm is deprecated, so only build for aarch64.
-  aarch64: &aarch64-build-options
-    prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
-    prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
-    libdir: /usr/lib/aarch64-linux-gnu/GL/asahi/lib
-
+    # org.freedesktop.Sdk.Compat.arm is deprecated, so only build for aarch64.
+    aarch64:
+      prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
+      prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
+      libdir: /usr/lib/aarch64-linux-gnu/GL/asahi/lib
 
 cleanup:
   - /include
@@ -39,10 +36,6 @@ cleanup:
   - '*.a'
 modules:
   - name: libdrm
-    build-options:
-      arch:
-        x86_64: *x86_64-build-options
-        aarch64: *aarch64-build-options
     buildsystem: meson
     config-opts:
       - -Dcairo-tests=disabled
@@ -53,7 +46,7 @@ modules:
         url: https://gitlab.freedesktop.org/mesa/drm.git
         tag: libdrm-2.4.114
         commit: b9ca37b3134861048986b75896c0915cbf2e97f9
-#         x-checker-data: 
+#         x-checker-data:
 #           type: git
 #           tag-pattern: ^libdrm-(\d[\d.]+\d)$
 
@@ -61,8 +54,15 @@ modules:
   - name: mesa
     build-options:
       arch:
-        x86_64: *x86_64-build-options
-        aarch64: *aarch64-build-options
+        x86_64:
+          config-opts:
+            - -Ddri-search-path=/usr/lib/x86_64-linux-gnu/GL/lib/dri
+        i386:
+          config-opts:
+            - -Ddri-search-path=/usr/lib/i386-linux-gnu/GL/lib/dri
+        aarch64:
+          config-opts:
+            - -Ddri-search-path=/usr/lib/aarch64-linux-gnu/GL/lib/dri
 
       # From upstream: Build only minimal debug info to reduce size
       cflags: -g1
