@@ -100,8 +100,8 @@ modules:
 
     sources:
       - type: archive
-        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20230725/mesa-asahi-20230725.tar.bz2
-        sha256: cf97b9505760fa95f6d09ec4f36944c502691b2dddcc7e547fd75535f88e5c45
+        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20230812/mesa-asahi-20230812.tar.bz2
+        sha256: 0428e37ba962d66d8c6d3f59639265e3d55e60841f9134257bbdf189d65ec062
         x-checker-data:
           type: html
           url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
