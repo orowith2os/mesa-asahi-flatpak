@@ -1,8 +1,8 @@
 id: org.freedesktop.Platform.GL.asahi
-branch: '22.08'
+branch: '23.08'
 runtime: org.freedesktop.Platform
 sdk: org.freedesktop.Sdk
-runtime-version: '22.08'
+runtime-version: '23.08'
 build-extension: true
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm15
@@ -25,8 +25,10 @@ x-arch-build-options:
   # org.freedesktop.Sdk.Compat.arm is deprecated, so only build for aarch64.
   aarch64: &aarch64-build-options
     prefix: /usr/lib/aarch64-linux-gnu/GL/asahi
-    prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig
+    prepend-path: /usr/lib/x86_64-linux-gnu/GL/asahi/bin
+    prepend-pkg-config-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib/pkgconfig:/usr/lib/aarch64-linux-gnu/GL/asahi/share/pkgconfig
     libdir: /usr/lib/aarch64-linux-gnu/GL/asahi/lib
+    prepend-ld-library-path: /usr/lib/aarch64-linux-gnu/GL/asahi/lib
 
 
 cleanup:
@@ -57,6 +59,66 @@ modules:
 #           type: git
 #           tag-pattern: ^libdrm-(\d[\d.]+\d)$
 
+  - name: spirv-headers
+    build-options:
+      arch:
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
+    buildsystem: cmake-ninja
+    sources:
+      - type: archive
+        url: https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/vulkan-sdk-1.3.268.0/spriv-headers-1.3.268.0.tar.gz
+        sha512: 3500c299a51dacc3e89066cfcfa8762cb6bc1be10ffff492fb3041831627e065cd836e3e0165df750dd22873a1772d916158e1e1c4701dc60efbb2edb17753ca
+
+  - name: spirv-tools
+    build-options:
+      arch:
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
+    buildsystem: cmake-ninja
+    config-opts:
+      - '-DBUILD_SHARED_LIBS=ON'
+      - '-DSPIRV_TOOLS_BUILD_STATIC=OFF'
+      - '-DSPIRV-Headers_SOURCE_DIR=/usr/lib/aarch64-linux-gnu/GL/asahi' #fixme
+      - '-DCMAKE_INSTALL_LIBDIR=lib'
+    sources:
+      - type: archive
+        url: https://github.com/KhronosGroup/SPIRV-Tools/archive/refs/tags/v2023.5.rc1.tar.gz
+        sha256: aed90b51ce884ce3ac267acec75e785ee743a1e1fd294c25be33b49c5804d77c
+
+  - name: llvm-spirv
+    build-options:
+      arch:
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
+    buildsystem: cmake-ninja
+    config-opts:
+      - '-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=/usr/lib/aarch64-linux-gnu/GL/asahi'
+    sources:
+      - type: archive
+        url: https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/refs/tags/v15.0.0.tar.gz
+        sha256: b1bebd77f72988758c00852e78c2ddc545815a612169a0cb377d021e2f846d88
+
+  - name: libclc
+    build-options:
+      arch:
+        x86_64: *x86_64-build-options
+        aarch64: *aarch64-build-options
+    config-opts:
+      - '-DCMAKE_INSTALL_LIBDIR=lib'
+      - '-DLLVM_SPIRV=/usr/lib/aarch64-linux-gnu/GL/asahi/bin/llvm-spirv'
+      - '-DLLVM_TOOLS_BINARY_DIR=/usr/lib/aarch64-linux-gnu/GL/asahi/bin' # Doesn't work...
+    buildsystem: cmake-ninja
+    sources:
+      - type: archive
+        url: https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/libclc-16.0.6.src.tar.xz
+        sha256: 61952af79c555d50bc88cb6f134d9abe9278f65dd34c2bc945cc3d324c2af224
+
+  # We might need to make this do some arch-specific stuff later for i386 builds, but as of the time of writing we only do 64-bit builds so we'll be fine.
+  - name: llvm
+    buildsystem: simple
+    build-commands:
+      - cp /usr/lib/sdk/llvm15/lib/libLLVM-15.so /usr/lib/$(uname -m)-linux-gnu/GL/asahi/lib
 
   - name: mesa
     build-options:
@@ -100,16 +162,12 @@ modules:
 
     sources:
       - type: archive
-        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20230904/mesa-asahi-20230904.tar.bz2
-        sha256: ce96f78d81e558adf0521c44782bea6955bc02ab362e22712b8e0bc7b7eb74cd
+        url: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-20240123/mesa-asahi-20240123.tar.bz2
+        sha256: 9113f76e6c17fb13ccda5702dca14e1b641d15900e32439ba3cd6409d28356e9
         x-checker-data:
           type: html
           url: https://github.com/AsahiLinux/PKGBUILDs/raw/main/mesa-asahi-edge/PKGBUILD
           version-pattern: _asahiver=(.+)
           url-template: https://gitlab.freedesktop.org/asahi/mesa/-/archive/asahi-$version/mesa-asahi-$version.tar.bz2
 
-  # We might need to make this do some arch-specific stuff later for i386 builds, but as of the time of writing we only do 64-bit builds so we'll be fine.
-  - name: llvm
-    buildsystem: simple
-    build-commands:
-      - cp /usr/lib/sdk/llvm15/lib/libLLVM-15.so /usr/lib/$(uname -m)-linux-gnu/GL/asahi/lib
+
